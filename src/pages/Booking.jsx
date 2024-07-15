@@ -1,6 +1,10 @@
+
+
 import { useNavigate } from "react-router-dom"
 import Calendar from 'react-calendar'
 import { useState } from "react";
+
+
 
 const services = [
   'Haircut',
@@ -16,20 +20,40 @@ const stylists = [
   'Sarah Brown'
 ];
 
-const handleSubmit = () => {
-  
-}
+
 
 const Booking = () => {
   const [name,setName]=useState('')
   const [email,setEmail]=useState('')
   const [stylist,setStylist]=useState('')
   const [service, setService] = useState('')
-  const [date,setDate]=useState('')
+  const [date,setDate]=useState(new Date())
+  const navigate=useNavigate()
+// handle submit form
+const handleSubmit = async(e) => {
+  e.preventDefault()
+  const response=await fetch('http://localhost:5000/apibookings',{
+    method:'POST',
+    headers:{
+      'content-Type':'application/json'
+    },
+    body:JSON.stringify({name,email,date,service,stylist})
+  })
+  // redirect and message for customer
+
+  if (response.ok) {
+    alert(`Booking for ${name} on ${date.toLocaleDateString()} was successful. We will send an email to ${email} with available times.`);
+    navigate('/');
+  } else {
+    alert('Booking failed. Please try again.');
+  }
+}
+
+ 
   return (
-    <div>
+    <div className="max-h-[100vh]">
       <h2 className="text-2xl capitalize font-bold mb-10">Book an appointment</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 border p-12 w-full">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 roundex-xl border p-12 w-full">
         {/* name */}
         <label htmlFor="">Name</label>
         <input type="text" className="rounded border p-4 " placeholder='Name' id="name" value={name} onChange={(e) => setName(e.target.value)} required />
