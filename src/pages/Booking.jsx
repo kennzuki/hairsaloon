@@ -51,7 +51,7 @@ const handleSubmit = async(e) => {
 
  
   return (
-    <div className="max-h-[100vh]">
+    <div className=" dark:text-slate-500 bg-slate-900 p-12">
       <h2 className="text-2xl capitalize font-bold mb-10">Book an appointment</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 roundex-xl border p-12 w-full">
         {/* name */}
